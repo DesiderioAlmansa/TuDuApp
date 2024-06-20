@@ -43,7 +43,15 @@ router.delete('/:id',
 
 router.post('/:projectId/tasks',
     validateProjectExists,
+    body('name').notEmpty().withMessage('name is obligatory'),
+    body('description').notEmpty().withMessage('description is obligatory'),
+    handlerInputErrors,
     TaskController.createTask
+)
+
+router.get('/:projectId/tasks',
+    validateProjectExists,
+    TaskController.getProjectTasks
 )
 
 export default router
