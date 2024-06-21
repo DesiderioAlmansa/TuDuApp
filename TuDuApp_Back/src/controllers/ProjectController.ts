@@ -10,11 +10,39 @@ export class ProjectController{
             await project.save()
             res.send('Project created')
         }catch(error){
-            console.log(colors.red.bold(error))
+            res.status(500).json(`An error ocurred: ${error}`)
+            //console.log(colors.red.bold(error))
         }
     }
 
     static getProjectById = async (req: Request, res: Response) => {
+        const {id} = req.params
+        try{
+            const project = await Project.findById(id).populate('tasks')
+
+            if(!project){
+                const error = new Error(`Project \'${id}\' not found.`)
+                return res.status(404).json({error: error.message})
+            }
+
+            res.json(project)
+        }catch(error){
+            res.status(500).json(`An error ocurred: ${error}`)
+            //console.log(colors.red.bold(error))
+        }
+    }
+
+    static getProjects = async (req: Request, res: Response) => {
+        try{
+            const projects = await Project.find({})
+            res.json(projects)
+        }catch(error){
+            res.status(500).json(`An error ocurred: ${error}`)
+            //console.log(colors.red.bold(error))
+        }
+    }
+
+    static updateProject = async (req: Request, res: Response) => {
         const {id} = req.params
         try{
             const project = await Project.findById(id)
@@ -24,35 +52,15 @@ export class ProjectController{
                 return res.status(404).json({error: error.message})
             }
 
-            res.json(project)
-        }catch(error){
-            console.log(colors.red.bold(error))
-        }
-    }
-
-    static getProjects = async (req: Request, res: Response) => {
-        try{
-            const projects = await Project.find({})
-            res.json(projects)
-        }catch(error){
-            console.log(colors.red.bold(error))
-        }
-    }
-
-    static updateProject = async (req: Request, res: Response) => {
-        const {id} = req.params
-        try{
-            const project = await Project.findByIdAndUpdate(id, req.body)
-
-            if(!project){
-                const error = new Error(`Project \'${id}\' not found.`)
-                return res.status(404).json({error: error.message})
-            }
-
-            await project.save
+            project.name = req.project.name
+            project.client = req.project.client
+            project.description = req.project.description
+            await project.save()
+            
             res.send(`Project \'${id}\' updated.`)
         }catch(error){
-            console.log(colors.red.bold(error))
+            res.status(500).json(`An error ocurred: ${error}`)
+            //console.log(colors.red.bold(error))
         }
     }
 
@@ -69,7 +77,8 @@ export class ProjectController{
             await project.deleteOne()
             res.send(`Project \'${id}\' deleted.`)
         }catch(error){
-            console.log(colors.red.bold(error))
+            res.status(500).json(`An error ocurred: ${error}`)
+            //console.log(colors.red.bold(error))
         }
     }
 
