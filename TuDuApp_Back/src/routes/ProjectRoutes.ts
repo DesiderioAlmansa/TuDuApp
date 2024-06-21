@@ -4,6 +4,7 @@ import {body, param} from 'express-validator'
 import { handlerInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
 import { validateProjectExists } from "../middleware/project";
+import { taskBelongsToProject, validateTaskExists } from "../middleware/task";
 import Task from "../models/Task";
 
 const router = Router()
@@ -53,6 +54,9 @@ router.post('/:projectId/tasks',
 router.get('/:projectId/tasks',
     TaskController.getProjectTasks
 )
+
+router.param('taskId', validateTaskExists)
+router.param('taskId', taskBelongsToProject)
 
 router.get('/:projectId/tasks/:taskId',
     param('taskId').isMongoId().withMessage('Invalid task ID'),
