@@ -10,7 +10,7 @@ export class ProjectController{
             await project.save()
             res.send('Project created')
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`An error ocurred: ${error}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -27,7 +27,7 @@ export class ProjectController{
 
             res.json(project)
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`An error ocurred: ${error}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -37,7 +37,7 @@ export class ProjectController{
             const projects = await Project.find({})
             res.json(projects)
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`An error ocurred: ${error}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -59,7 +59,7 @@ export class ProjectController{
             
             res.send(`Project \'${id}\' updated.`)
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`An error ocurred: ${error}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -77,7 +77,7 @@ export class ProjectController{
             await project.deleteOne()
             res.send(`Project \'${id}\' deleted.`)
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`An error ocurred: ${error}`)
             //console.log(colors.red.bold(error))
         }
     }
