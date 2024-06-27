@@ -13,19 +13,19 @@ export interface IProject extends Document  {
 const ProjectSchema: Schema = new Schema({
     name: {
         type: String,
-        unique: true,
+        //unique: true,
         trim: true,
         required: true   
     },
     client: {
         type: String,
-        unique: true,
+        //unique: true,
         trim: true,
         required: true   
     },
     description: {
         type: String,
-        unique: true,
+        //unique: true,
         trim: true,
         required: true   
     },
