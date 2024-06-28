@@ -1,6 +1,8 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
 import { getProjectById } from "@/services/ProjectService"
+import AddTaskModal from "@/components/tasks/AddTaskModal"
+import TaskList from "@/components/tasks/TaskList"
 
 export default function ProjectDetailsView(){
 
@@ -24,12 +26,15 @@ export default function ProjectDetailsView(){
             <p className="text-2xl font-light text-gray-500 mt-5">{data.description}</p>
 
             <nav className="my-5 flex gap-3">
-                <button className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl
+                <button type="button" className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl
                 font-bold cursor-pointer transition-colors"
-                onClick={() => navigate('?newTask=true')}>
+                onClick={() => navigate(location.pathname + '?newTask=true')}>
                     Añadir tarea
                 </button>
             </nav>
+            <TaskList
+                tasks={data.tasks}/>
+            <AddTaskModal/>
         </>
     )
 }
