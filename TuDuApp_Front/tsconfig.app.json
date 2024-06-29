@@ -14,7 +14,8 @@
       "@/layouts/*":["layouts/*"],
       "@/services/*":["services/*"],
       "@/types/*":["types/*"],
-      "@/lib/*":["lib/*"]
+      "@/lib/*":["lib/*"],
+      "@/utils/*":["utils/*"]
     },
 
 

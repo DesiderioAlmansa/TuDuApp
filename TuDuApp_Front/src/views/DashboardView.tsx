@@ -28,7 +28,6 @@ const { mutate } = useMutation({
 })
 
 if(isLoading) return 'Loading...'
-console.log(data)
 
 if(data) return (
 <>
