@@ -15,7 +15,8 @@
       "@/services/*":["services/*"],
       "@/types/*":["types/*"],
       "@/lib/*":["lib/*"],
-      "@/utils/*":["utils/*"]
+      "@/utils/*":["utils/*"],
+      "@/locales/*":["locales/*"],
     },
 
 

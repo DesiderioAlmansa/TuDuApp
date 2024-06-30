@@ -7,6 +7,7 @@ type TaskService = {
     formData: TaskFormData
     projectId: Project['_id']
     taskId: Task['_id']
+    status: Task['status']
 }
 export async function createTask({formData, projectId} : Pick<TaskService, 'formData'| 'projectId'>){
     try{
@@ -47,6 +48,17 @@ export async function updateTask({projectId, taskId, formData} : Pick<TaskServic
 export async function deleteTask({projectId, taskId} : Pick<TaskService, 'projectId' | 'taskId'>){
     try{
         const { data } = await service.delete<string>(`/projects/${projectId}/tasks/${taskId}`)
+        return data 
+     } catch (error){
+         if(isAxiosError(error) && error.response){
+             throw new Error(error.response.data.error)
+         }  
+     }
+}
+
+export async function updateTaskStatus({projectId, taskId, status} : Pick<TaskService, 'projectId' | 'taskId' | 'status'>){
+    try{
+        const { data } = await service.post<string>(`/projects/${projectId}/tasks/${taskId}/status`, {status})
         return data 
      } catch (error){
          if(isAxiosError(error) && error.response){
