@@ -5,6 +5,7 @@ import { corsConfig } from './config/cors'
 import express from 'express'
 import {dbConnect} from './config/db'
 import projectRoutes from './routes/ProjectRoutes'
+import authRoutes from './routes/AuthRoutes'
 
 
 dotenv.config()
@@ -19,6 +20,7 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 //Routes
+app.use('/api/auth', authRoutes)
 app.use('/api/projects', projectRoutes)
 
 
