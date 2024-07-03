@@ -13,9 +13,9 @@ export class TaskController {
             req.project.tasks.push(task.id)
 
             await Promise.allSettled([task.save(),  req.project.save()])
-            res.send('Task created')
+            res.send('Tarea creada')
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -25,7 +25,7 @@ export class TaskController {
             const tasks = await Task.find({project: req.project.id}).populate('project')
             res.json(tasks)
         } catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -34,7 +34,7 @@ export class TaskController {
         try{ 
             res.json(req.task)
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -45,9 +45,9 @@ export class TaskController {
             req.task.description = req.body.description
             await req.task.save()
             
-            res.send('Task updated')
+            res.send('Tarea actualizada')
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -58,9 +58,9 @@ export class TaskController {
            
             await Promise.allSettled([await req.task.deleteOne(),await req.project.save()])
 
-            res.send('Task deleted')
+            res.send('Tarea eliminada')
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -72,9 +72,9 @@ export class TaskController {
             req.task.status = status
             await req.task.save()
 
-            res.send('Task status updated')
+            res.send('Estado actualizado')
         }catch(error){
-            res.status(500).json(`An error ocurred: ${error}`)
+            res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }

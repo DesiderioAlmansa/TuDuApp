@@ -86,7 +86,7 @@ export default function EditTaskModal({data, taskId} : EditTaskDataProps) {
                                 </Dialog.Title>
 
                                 <p className="text-xl font-bold">Realiza cambios a una tarea en {''}
-                                    <span className="text-fuchsia-600">este formulario</span>
+                                    <span className="text-emerald-300 ">este formulario</span>
                                 </p>
 
                                 <form
