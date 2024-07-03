@@ -32,4 +32,35 @@ router.post('/login',
     AuthController.login
 )
 
+router.post('/request-code',
+    body('email').isEmail().withMessage('invalid email'),
+    handlerInputErrors,
+    AuthController.requestConfirmationCode
+)
+
+router.post('/forgot-password',
+    body('email').isEmail().withMessage('invalid email'),
+    handlerInputErrors,
+    AuthController.forgotPassword
+)
+
+router.post('/validate-token',
+    body('token').notEmpty().withMessage('token is obligatory'),
+    handlerInputErrors,
+    AuthController.validateToken
+)
+
+router.post('/update-password/:token',
+    param('token').isNumeric().withMessage('invalid token'),
+    body('password').isLength({min: 8}).withMessage('the password is too short, it must be at least 8 characters'),
+    body('password_confirmation').custom((value, {req}) => {
+        if(value !== req.body.password){
+            throw new Error('password does not match')
+        }
+        return true
+    }),
+    handlerInputErrors,
+    AuthController.updatePasswordWithToken
+)
+
 export default router

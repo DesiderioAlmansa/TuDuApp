@@ -8,9 +8,9 @@ export class ProjectController{
         const project = new Project(req.body)
         try{
             await project.save()
-            res.send('Project created')
+            res.send('Proyecto creado')
         }catch(error){
-            return res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -21,13 +21,13 @@ export class ProjectController{
             const project = await Project.findById(id).populate('tasks')
 
             if(!project){
-                const error = new Error(`Project \'${id}\' not found.`)
+                const error = new Error(`No se encontró el proyecto \'${id}\'`)
                 return res.status(404).json({error: error.message})
             }
 
             res.json(project)
         }catch(error){
-            return res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -37,7 +37,7 @@ export class ProjectController{
             const projects = await Project.find({})
             res.json(projects)
         }catch(error){
-            return res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -48,7 +48,7 @@ export class ProjectController{
             const project = await Project.findById(id)
 
             if(!project){
-                const error = new Error(`Project \'${id}\' not found.`)
+                const error = new Error(`No se encontró el proyecto \'${id}\'`)
                 return res.status(404).json({error: error.message})
             }
             project.name = req.body.name
@@ -56,10 +56,10 @@ export class ProjectController{
             project.description = req.body.description
             await project.save()
             
-            res.send(`Project \'${id}\' updated.`)
+            res.send(`Proyecto \'${id}\' actualizado`)
         }catch(error){
             console.log(error.message)
-            return res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
@@ -70,14 +70,14 @@ export class ProjectController{
             const project = await Project.findById(id)
 
             if(!project){
-                const error = new Error(`Project \'${id}\' not found.`)
+                const error = new Error(`No se encontró el proyecto \'${id}\'`)
                 return res.status(404).json({error: error.message})
             }
 
             await project.deleteOne()
-            res.send(`Project \'${id}\' deleted.`)
+            res.send(`Proyecto \'${id}\' eliminado`)
         }catch(error){
-            return res.status(500).json(`An error ocurred: ${error}`)
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
             //console.log(colors.red.bold(error))
         }
     }
