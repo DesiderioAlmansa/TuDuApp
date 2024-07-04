@@ -38,6 +38,7 @@ export async function requestConfirmationCode(formData: RequestConfirmationCodeF
 export async function login(formData: UserLoginForm){
     try{
         const { data } = await service.post<string>('/auth/login', formData)
+        localStorage.setItem('AUTH_TOKEN_TUDUAPP', data)
         return data
     } catch (error){
         if(isAxiosError(error) && error.response){
