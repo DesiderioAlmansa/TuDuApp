@@ -40,10 +40,10 @@ if(data) return (
             to="/projects/create">
         Nuevo Proyecto
         </Link>
-
     </nav>
+
     {data.length ? (
-    <p>
+    //<p>
     <ul role="list" className="divide-y divide-gray-100 border border-gray-100 mt-10 bg-white shadow-lg">
         {data.map((project) => (
         <li key={project._id} className="flex justify-between gap-x-6 px-5 py-10">
@@ -96,7 +96,7 @@ if(data) return (
         ))}
     </ul>
 
-    </p>
+    //</p>
     ): (
     <p className="text-center py-20">No hay proyectos {''}
         <Link className="text-fuchsia-500 font-bold" to="/projects/create">

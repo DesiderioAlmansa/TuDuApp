@@ -11,7 +11,7 @@ declare global {
 }
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
-    const bearer = req.headers.authorization.trim()
+    const bearer = req.headers.authorization
     if(!bearer){
         const error = new Error('No autorizado')
         return res.status(401).json({error:error.message})
@@ -26,6 +26,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
             const user =  await User.findById(decoded.id).select('_id name email')
             if(user){
                 req.user = user
+                next()
             } else{
                 res.status(500).json({error: 'Token JWT no válido'})
             }
@@ -33,5 +34,4 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     } catch(error) {
         res.status(500).json({error: 'Token JWT no válido'})
     }
-    next()
 }
