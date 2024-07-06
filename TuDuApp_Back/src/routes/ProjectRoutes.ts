@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ProjectController } from "../controllers/ProjectController";
+import { TeamController } from "../controllers/TeamController";
 import {body, param} from 'express-validator'
 import { handlerInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
@@ -87,4 +88,27 @@ router.post('/:projectId/tasks/:taskId/status',
     TaskController.updateStatus
 )
 
+//TEAM ROUTES
+router.get('/:projectId/team',
+    TeamController.getProjectTeam
+)
+
+router.post('/:projectId/team/find',
+    body('email').isEmail().toLowerCase().withMessage('invalid email'),
+    handlerInputErrors,
+    TeamController.findMemberByEmail
+)
+
+
+router.post('/:projectId/team',
+    body('id').isMongoId().withMessage('invalid id'),
+    handlerInputErrors,
+    TeamController.addMemberById
+)
+
+router.delete('/:projectId/team/:userId',
+    param('userId').isMongoId().withMessage('invalid id'),
+    handlerInputErrors,
+    TeamController.removeMemberById
+)
 export default router
