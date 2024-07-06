@@ -6,7 +6,10 @@ export class ProjectController{
 
     static createProject = async (req: Request, res: Response) => {
         const project = new Project(req.body)
-        console.log(req.user)
+
+        //Add manager to project
+        project.manager = req.user.id
+
         try{
             await project.save()
             res.send('Proyecto creado')
@@ -20,9 +23,14 @@ export class ProjectController{
         const {id} = req.params
         try{
             const project = await Project.findById(id).populate('tasks')
-
             if(!project){
                 const error = new Error(`No se encontró el proyecto \'${id}\'`)
+                return res.status(404).json({error: error.message})
+            }
+
+            //chekc manager
+            if(project.manager.toString() !== req.user.id.toString()){
+                const error = new Error(`Error en la autorización`)
                 return res.status(404).json({error: error.message})
             }
 
@@ -35,7 +43,11 @@ export class ProjectController{
 
     static getProjects = async (req: Request, res: Response) => {
         try{
-            const projects = await Project.find({})
+            const projects = await Project.find({
+                $or: [
+                    {manager: {$in: req.user.id}}
+                ]
+            })
             res.json(projects)
         }catch(error){
             return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
@@ -52,6 +64,13 @@ export class ProjectController{
                 const error = new Error(`No se encontró el proyecto \'${id}\'`)
                 return res.status(404).json({error: error.message})
             }
+
+            //chekc manager
+            if(project.manager.toString() !== req.user.id.toString()){
+                const error = new Error(`Acción no autorizada`)
+                return res.status(404).json({error: error.message})
+            }
+
             project.name = req.body.name
             project.client = req.body.client
             project.description = req.body.description
@@ -72,6 +91,12 @@ export class ProjectController{
 
             if(!project){
                 const error = new Error(`No se encontró el proyecto \'${id}\'`)
+                return res.status(404).json({error: error.message})
+            }
+            
+            //chekc manager
+            if(project.manager.toString() !== req.user.id.toString()){
+                const error = new Error(`Acción no autorizada`)
                 return res.status(404).json({error: error.message})
             }
 
