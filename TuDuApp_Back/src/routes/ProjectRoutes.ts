@@ -5,7 +5,7 @@ import {body, param} from 'express-validator'
 import { handlerInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
 import { validateProjectExists } from "../middleware/project";
-import { taskBelongsToProject, validateTaskExists } from "../middleware/task";
+import { hasAuthorization, taskBelongsToProject, validateTaskExists } from "../middleware/task";
 import Task from "../models/Task";
 import { authenticate } from "../middleware/auth";
 
@@ -48,6 +48,7 @@ router.delete('/:id',
 router.param('projectId', validateProjectExists)
 
 router.post('/:projectId/tasks',
+    hasAuthorization,
     body('name').notEmpty().withMessage('name is obligatory'),
     body('description').notEmpty().withMessage('description is obligatory'),
     handlerInputErrors,
@@ -68,6 +69,7 @@ router.get('/:projectId/tasks/:taskId',
 )
 
 router.put('/:projectId/tasks/:taskId',
+    hasAuthorization,
     param('taskId').isMongoId().withMessage('Invalid task ID'),
     body('name').notEmpty().withMessage('name is obligatory'),
     body('description').notEmpty().withMessage('description is obligatory'),
@@ -76,6 +78,7 @@ router.put('/:projectId/tasks/:taskId',
 )
 
 router.delete('/:projectId/tasks/:taskId',
+    hasAuthorization,
     param('taskId').isMongoId().withMessage('Invalid task ID'),
     handlerInputErrors,
     TaskController.deleteTaskById

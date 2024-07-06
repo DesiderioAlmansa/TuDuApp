@@ -28,8 +28,8 @@ export class ProjectController{
                 return res.status(404).json({error: error.message})
             }
 
-            //chekc manager
-            if(project.manager.toString() !== req.user.id.toString()){
+            //chekc manager or if exists in team
+            if(project.manager.toString() !== req.user.id.toString() && !project.team.includes(req.user.id)){
                 const error = new Error(`Error en la autorización`)
                 return res.status(404).json({error: error.message})
             }
@@ -45,7 +45,8 @@ export class ProjectController{
         try{
             const projects = await Project.find({
                 $or: [
-                    {manager: {$in: req.user.id}}
+                    {manager: {$in: req.user.id}},
+                    {team: {$in: req.user.id}}
                 ]
             })
             res.json(projects)
