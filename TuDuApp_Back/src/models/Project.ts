@@ -9,6 +9,7 @@ export interface IProject extends Document  {
     description: string
     tasks: PopulatedDoc<ITask & Document>[]
     manager: PopulatedDoc<IUser & Document>
+    team: PopulatedDoc<IUser & Document>[]
 }
 
 //OBJECT MONGOOSE
@@ -37,7 +38,13 @@ const ProjectSchema: Schema = new Schema({
     manager: {
         type: Types.ObjectId,
         ref: 'User'
-    }
+    },
+    team:[
+        {
+            type: Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 }, {timestamps: true})
 
 //connection Typescript Model with Mongoose Schema
