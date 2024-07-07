@@ -94,6 +94,19 @@ export default function TaskModalDetails() {
                                             ))}
                                         </select>
                                     </div>
+
+                                    <p className='text-le text-slate-500 mb-2'>Historial de cambios:</p>
+                                    <ul className='list-decimal'>
+                                    {data.completedBy.map((activityLog) => (
+                                        <li key={activityLog._id}>
+                                            Cambio a 
+                                            <span className='font-bold text-slate-600'> {statusTranslation[activityLog.status]} </span>
+                                            por 
+                                            <span className='font-bold text-slate-600'> {activityLog.user.name} </span>
+                                        </li>
+                                    ))}
+                                    </ul>
+                                    
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
