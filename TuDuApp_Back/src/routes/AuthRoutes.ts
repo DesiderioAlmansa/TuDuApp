@@ -69,4 +69,33 @@ router.get('/user',
     AuthController.user
 )
 
+//PROFILE ROUTES
+router.put('/profile',
+    authenticate,
+    body('name').notEmpty().withMessage('name is obligatory'),
+    body('email').isEmail().withMessage('invalid email'),
+    AuthController.updateProfile
+)
+
+
+router.post('/update-password',
+    authenticate,
+    body('current_password').notEmpty().withMessage('current password is obligatory'),
+    body('password').isLength({min: 8}).withMessage('the password is too short, it must be at least 8 characters'),
+    body('password_confirmation').custom((value, {req}) => {
+        if(value !== req.body.password){
+            throw new Error('password does not match')
+        }
+        return true
+    }),
+    handlerInputErrors,
+    AuthController.updateCurrentUserPassword
+)
+
+router.post('/check-password',
+    authenticate,
+    body('password').notEmpty().withMessage('password is obligatory'),
+    handlerInputErrors,
+    AuthController.checkPassword
+)
 export default router

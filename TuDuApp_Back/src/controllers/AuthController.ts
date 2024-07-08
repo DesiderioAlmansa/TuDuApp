@@ -219,4 +219,65 @@ export class AuthController{
         return res.json(req.user)
     }
 
+    static updateProfile = async (req: Request, res: Response) => {
+        try {
+            const { name, email } = req.body
+
+            const userExists = await User.findOne({email})
+            if(userExists && userExists.id.toString() !== req.user.id.toString()){
+                const error = new Error('El email ya esta registrado')
+                return res.status(401).json({error: error.message})
+            }
+
+            req.user.name = name
+            req.user.email = email
+            await req.user.save()
+            res.send('Perfil actualizado')
+        } catch (error) {
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
+            //console.log(colors.red.bold(error))
+        }
+    }
+
+    static updateCurrentUserPassword = async (req: Request, res: Response) => {
+        try {
+            const { current_password, password } = req.body
+
+            const user = await User.findById(req.user.id)
+            const isPasswordCorrect = await checkPassword(current_password, user.password)
+
+            if(!isPasswordCorrect){
+                const error = new Error('Contraseña actual incorrecta')
+                return res.status(401).json({error: error.message})
+            }
+
+            user.password = await hashPassword(password)
+            await user.save()
+
+            res.send('Contraseña actualizada')
+        } catch (error) {
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
+            //console.log(colors.red.bold(error))
+        }
+    }
+
+    static checkPassword = async (req: Request, res: Response) => {
+        try {
+            const { password } = req.body
+
+            const user = await User.findById(req.user.id)
+
+            const isPasswordCorrect = await checkPassword(password, user.password)
+
+            if(!isPasswordCorrect){
+                const error = new Error('Contraseña incorrecta')
+                return res.status(401).json({error: error.message})
+            }
+
+            res.send('Contraseña correcta')
+        } catch (error) {
+            return res.status(500).json(`Ha ocurrido un error: ${error.message}`)
+            //console.log(colors.red.bold(error))
+        }
+    }
 }

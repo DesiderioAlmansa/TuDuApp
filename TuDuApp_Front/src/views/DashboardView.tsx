@@ -1,34 +1,22 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import { Link } from "react-router-dom"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteProject, getProjects } from "@/services/ProjectService"
-import { toast } from 'react-toastify'
-import { error } from 'console'
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { getProjects } from "@/services/ProjectService"
 import { useAuth } from '@/hooks/useAuth'
 import { isManager } from '@/utils/policies'
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal'
 
 export default function DashboardView(){
+    const location = useLocation()
+    const navigate = useNavigate()
 
 const {data: user, isLoading: authLoading} = useAuth()
 
 const { data, isError, isLoading } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects
-})
-
-const queryClient = useQueryClient()
-
-const { mutate } = useMutation({
-    mutationFn: deleteProject,
-    onError: (error) => {
-        toast.error(error.message)
-    },
-    onSuccess: (data) => {
-        toast.success(data)
-        queryClient.invalidateQueries({queryKey: ['projects']})
-    }
 })
 
 if(isLoading && authLoading) return 'Loading...'
@@ -99,7 +87,7 @@ if(data && user) return (
                             </Menu.Item>
                             <Menu.Item>
                                 <button type='button' className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                    onClick={()=> mutate(project._id) }
+                                    onClick={()=> navigate(location.pathname + `?deleteProject=${project._id}`)}
                                     >
                                     Eliminar Proyecto
                                 </button>
@@ -123,6 +111,8 @@ if(data && user) return (
         </Link>
     </p>
     )}
+
+    <DeleteProjectModal/>
 </>
 )
 }
