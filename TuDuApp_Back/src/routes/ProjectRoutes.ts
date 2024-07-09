@@ -15,15 +15,15 @@ const router = Router()
 router.use(authenticate)
 
 router.post('/',  
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('client').notEmpty().withMessage('client is obligatory'),
-    body('description').notEmpty().withMessage('description is obligatory'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('client').notEmpty().withMessage('client es obligatorio'),
+    body('description').notEmpty().withMessage('description es obligatorio'),
     handlerInputErrors,
     ProjectController.createProject
 )
 
 router.get('/:id', 
-    param('id').isMongoId().withMessage('Invalid ID'),
+    param('id').isMongoId().withMessage('ID no válido'),
     handlerInputErrors,
     ProjectController.getProjectById
 )
@@ -31,16 +31,16 @@ router.get('/:id',
 router.get('/', ProjectController.getProjects)
 
 router.put('/:id', 
-    param('id').isMongoId().withMessage('Invalid ID'),
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('client').notEmpty().withMessage('client is obligatory'),
-    body('description').notEmpty().withMessage('description is obligatory'),
+    param('id').isMongoId().withMessage('ID no válido'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('client').notEmpty().withMessage('client es obligatorio'),
+    body('description').notEmpty().withMessage('description es obligatorio'),
     handlerInputErrors,
     ProjectController.updateProject
 )
 
 router.delete('/:id', 
-    param('id').isMongoId().withMessage('Invalid ID'),
+    param('id').isMongoId().withMessage('ID no válido'),
     handlerInputErrors,
     ProjectController.deleteProjectById
 )
@@ -50,8 +50,8 @@ router.param('projectId', validateProjectExists)
 
 router.post('/:projectId/tasks',
     hasAuthorization,
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('description').notEmpty().withMessage('description is obligatory'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('description').notEmpty().withMessage('description es obligatorio'),
     handlerInputErrors,
     TaskController.createTask
 )
@@ -64,30 +64,30 @@ router.param('taskId', validateTaskExists)
 router.param('taskId', taskBelongsToProject)
 
 router.get('/:projectId/tasks/:taskId',
-    param('taskId').isMongoId().withMessage('Invalid task ID'),
+    param('taskId').isMongoId().withMessage('ID de Tarea no válido'),
     handlerInputErrors,
     TaskController.getTaskById
 )
 
 router.put('/:projectId/tasks/:taskId',
     hasAuthorization,
-    param('taskId').isMongoId().withMessage('Invalid task ID'),
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('description').notEmpty().withMessage('description is obligatory'),
+    param('taskId').isMongoId().withMessage('ID de Tarea no válido'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('description').notEmpty().withMessage('description es obligatorio'),
     handlerInputErrors,
     TaskController.updateTask
 )
 
 router.delete('/:projectId/tasks/:taskId',
     hasAuthorization,
-    param('taskId').isMongoId().withMessage('Invalid task ID'),
+    param('taskId').isMongoId().withMessage('ID de Tarea no válido'),
     handlerInputErrors,
     TaskController.deleteTaskById
 )
 
 router.post('/:projectId/tasks/:taskId/status',
-    param('taskId').isMongoId().withMessage('Invalid task ID'),
-    body('status').notEmpty().withMessage('state is obligatory'),
+    param('taskId').isMongoId().withMessage('ID de Tarea no válido'),
+    body('status').notEmpty().withMessage('state es obligatorio'),
     handlerInputErrors,
     TaskController.updateStatus
 )
@@ -98,20 +98,20 @@ router.get('/:projectId/team',
 )
 
 router.post('/:projectId/team/find',
-    body('email').isEmail().toLowerCase().withMessage('invalid email'),
+    body('email').isEmail().toLowerCase().withMessage('Email no válido'),
     handlerInputErrors,
     TeamController.findMemberByEmail
 )
 
 
 router.post('/:projectId/team',
-    body('id').isMongoId().withMessage('invalid id'),
+    body('id').isMongoId().withMessage('ID no válido'),
     handlerInputErrors,
     TeamController.addMemberById
 )
 
 router.delete('/:projectId/team/:userId',
-    param('userId').isMongoId().withMessage('invalid id'),
+    param('userId').isMongoId().withMessage('ID no válido'),
     handlerInputErrors,
     TeamController.removeMemberById
 )
@@ -119,7 +119,7 @@ router.delete('/:projectId/team/:userId',
 
 //NOTES ROUTES
 router.post('/:projectId/tasks/:taskId/notes',
-    body('content').notEmpty().withMessage('invalid email'),
+    body('content').notEmpty().withMessage('Email no válido'),
     handlerInputErrors,
     NoteController.createNote
 )
@@ -129,7 +129,7 @@ router.get('/:projectId/tasks/:taskId/notes',
 )
 
 router.delete('/:projectId/tasks/:taskId/notes/:noteId',
-    param('noteId').isMongoId().withMessage('invalid id'),
+    param('noteId').isMongoId().withMessage('ID no válido'),
     handlerInputErrors,
     NoteController.deleteNote
 )
