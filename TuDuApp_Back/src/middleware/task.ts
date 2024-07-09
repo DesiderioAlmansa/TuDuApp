@@ -35,6 +35,7 @@ export function taskBelongsToProject(req: Request, res: Response, next: NextFunc
 }
 
 export function hasAuthorization(req: Request, res: Response, next: NextFunction){
+    console.log(req.project)
     if(req.user.id.toString() !== req.project.manager.toString()){
         const error = new Error(`No tienes permiso para realizar la acción`)
         return res.status(403).json({error: error.message})

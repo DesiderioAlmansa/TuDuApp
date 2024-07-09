@@ -15,7 +15,7 @@ export async function validateProjectExists(req: Request, res: Response, next: N
         const project = await Project.findById(projectId)
 
         if(!project){
-            const error = new Error(`Project \'${projectId}\' not found.`)
+            const error = new Error(`Project not found.`)
             return res.status(404).json({error: error.message})
         }
         req.project = project

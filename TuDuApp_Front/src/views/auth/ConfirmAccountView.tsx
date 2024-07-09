@@ -3,7 +3,7 @@ import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useState } from "react";
 import { ConfirmToken } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+//import { useForm } from "react-hook-form";
 import { confirmAccount } from "@/services/AuthService";
 import { toast } from "react-toastify";
 
@@ -19,7 +19,6 @@ export default function ConfirmAccountView() {
         },
         onSuccess: (data) => {
             toast.success(data)
-            //navigate('/')
         }
     })
 

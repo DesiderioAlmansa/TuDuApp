@@ -1,5 +1,3 @@
-import { findRenderedDOMComponentWithTag } from "react-dom/test-utils"
-
 export function formatDate(isoString: string) : string{
     const date = new Date(isoString)
     const formatter = new Intl.DateTimeFormat('es-ES', {

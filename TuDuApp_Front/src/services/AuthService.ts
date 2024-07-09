@@ -1,7 +1,6 @@
 import service from "@/lib/axios";
 import { CheckPasswordForm, ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm, userSchema } from "../types";
 import { isAxiosError } from "axios";
-import { FORMERR } from "dns";
 
 export async function createAccount(formData: UserRegistrationForm){
     try{
@@ -98,6 +97,7 @@ export async function getUser(){
 export async function checkPassword(formData : CheckPasswordForm){
     try{
         const { data } = await service.post<string>(`/auth/check-password`, formData)
+        return data
     } catch (error){
         if(isAxiosError(error) && error.response){
             throw new Error(error.response.data.error)
