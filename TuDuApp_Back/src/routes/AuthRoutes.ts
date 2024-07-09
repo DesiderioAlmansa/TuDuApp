@@ -7,56 +7,56 @@ import { authenticate } from "../middleware/auth";
 const router = Router()
 
 router.post('/create-account',  
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('password').isLength({min: 8}).withMessage('the password is too short, it must be at least 8 characters'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('password').isLength({min: 8}).withMessage('La contraseña es demaisado corta, debe contener al menos 8 caracteres'),
     body('password_confirmation').custom((value, {req}) => {
         if(value !== req.body.password){
-            throw new Error('password does not match')
+            throw new Error('Las contraseñas no coinciden')
         }
         return true
     }),
-    body('email').isEmail().withMessage('invalid email'),
+    body('email').isEmail().withMessage('email no válido'),
     handlerInputErrors,
     AuthController.createAccount
 )
 
 router.post('/confirm-account',
-    body('token').notEmpty().withMessage('token is obligatory'),
+    body('token').notEmpty().withMessage('token es obligatorio'),
     handlerInputErrors,
     AuthController.confirmAccount
 )
 
 router.post('/login',
-    body('email').isEmail().withMessage('invalid email'),
-    body('password').notEmpty().withMessage('password is obligatory'),
+    body('email').isEmail().withMessage('email no válido'),
+    body('password').notEmpty().withMessage('password es obligatorio'),
     handlerInputErrors,
     AuthController.login
 )
 
 router.post('/request-code',
-    body('email').isEmail().withMessage('invalid email'),
+    body('email').isEmail().withMessage('email no válido'),
     handlerInputErrors,
     AuthController.requestConfirmationCode
 )
 
 router.post('/forgot-password',
-    body('email').isEmail().withMessage('invalid email'),
+    body('email').isEmail().withMessage('email no válido'),
     handlerInputErrors,
     AuthController.forgotPassword
 )
 
 router.post('/validate-token',
-    body('token').notEmpty().withMessage('token is obligatory'),
+    body('token').notEmpty().withMessage('token es obligatorio'),
     handlerInputErrors,
     AuthController.validateToken
 )
 
 router.post('/update-password/:token',
-    param('token').isNumeric().withMessage('invalid token'),
-    body('password').isLength({min: 8}).withMessage('the password is too short, it must be at least 8 characters'),
+    param('token').isNumeric().withMessage('token no válido'),
+    body('password').isLength({min: 8}).withMessage('La contraseña es demaisado corta, debe contener al menos 8 caracteres'),
     body('password_confirmation').custom((value, {req}) => {
         if(value !== req.body.password){
-            throw new Error('password does not match')
+            throw new Error('Las contraseñas no coinciden')
         }
         return true
     }),
@@ -72,19 +72,19 @@ router.get('/user',
 //PROFILE ROUTES
 router.put('/profile',
     authenticate,
-    body('name').notEmpty().withMessage('name is obligatory'),
-    body('email').isEmail().withMessage('invalid email'),
+    body('name').notEmpty().withMessage('name es obligatorio'),
+    body('email').isEmail().withMessage('email no válido'),
     AuthController.updateProfile
 )
 
 
 router.post('/update-password',
     authenticate,
-    body('current_password').notEmpty().withMessage('current password is obligatory'),
-    body('password').isLength({min: 8}).withMessage('the password is too short, it must be at least 8 characters'),
+    body('current_password').notEmpty().withMessage('La contraseña actual es obligatoria'),
+    body('password').isLength({min: 8}).withMessage('La contraseña es demaisado corta, debe contener al menos 8 caracteres'),
     body('password_confirmation').custom((value, {req}) => {
         if(value !== req.body.password){
-            throw new Error('password does not match')
+            throw new Error('Las contraseñas no coinciden')
         }
         return true
     }),
@@ -94,7 +94,7 @@ router.post('/update-password',
 
 router.post('/check-password',
     authenticate,
-    body('password').notEmpty().withMessage('password is obligatory'),
+    body('password').notEmpty().withMessage('password es obligatorio'),
     handlerInputErrors,
     AuthController.checkPassword
 )
