@@ -1,5 +1,5 @@
 import service from "@/lib/axios";
-import { Note, NoteFormData, Project, Task, UpdateCurrentUserPasswordForm, UserProfileForm } from "../types";
+import { UpdateCurrentUserPasswordForm, UserProfileForm } from "../types";
 import { isAxiosError } from "axios";
 
 export async function updateProfile(formData : UserProfileForm) {
